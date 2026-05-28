@@ -1,7 +1,3 @@
-/*
-  extracts all datastores available in ODI.
-  also shows the current physical schema used by each datastore for the 'GLOBAL' context.
-*/
 with st as (select * from snp_table with read only)
 ,sm as (select * from snp_model with read only)
 ,sl as (select * from snp_lschema with read only)

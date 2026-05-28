@@ -1,6 +1,3 @@
-/*
-  extracts all packages available in ODI.
-*/
 with sp as (select * from snp_package with read only)
 ,sf as (select * from snp_folder with read only)
 select

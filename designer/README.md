@@ -1,0 +1,18 @@
+- [Scenarios](./scenarios.sql): all available scenarios in the repository.
+- [Scenario Task](./scenario_task.sql): all tasks generated inside each scenario.
+- [Mappings](./mappings.sql): all mappings available in the repository.
+  also shows several properties set in the physical layer:
+    - cleanup_on_error => Remove Temporary Objects on Error
+    - is_concurrent    => Use Unique Temporary Object Names
+    - is_frozen        => Is Frozen
+- [Packages](./packages.sql): all packages available in the repository.
+- [Procedures](./procedures.sql): all procedures available in the repository.
+- [Procedure Steps](./procedure_steps.sql): all procedure steps available in the repository.
+- [Procedure Variables](./procedure_variables.sql): all variables used inside each procedure.
+- [Variables](./variables.sql): all variables available in the repository.
+- [Sequences](./sequences.sql): all sequences available in the repository.
+- [Projects](./projects.sql): all projects available in the repository.
+- [Folders](./folders.sql): all folders available in the repository.
+- [Models](./models.sql): all models available in the repository.
+- [Datastores](./datastores.sql): all datastores available in the repository.
+- [Datastore Columns](./datastore_columns.sql): all datastore columns available in the repository.

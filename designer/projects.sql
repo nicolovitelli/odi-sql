@@ -1,6 +1,3 @@
-/*
-  extracts all projects available in ODI.
-*/
 with sp as (select * from snp_project with read only)
 select i_project as prj_no
 	,project_name as prj_name

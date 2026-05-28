@@ -1,6 +1,3 @@
-/*
-  extracts all folders available in ODI.
-*/
 with sf as (select * from snp_folder with read only)
 select sf.i_folder fol_no
 	,sf.folder_name

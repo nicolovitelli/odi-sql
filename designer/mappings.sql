@@ -1,10 +1,3 @@
-/*
-  extracts all mappings available in ODI.
-  also shows several properties set in the physical layer:
-    - cleanup_on_error => Remove Temporary Objects on Error
-    - is_concurrent    => Use Unique Temporary Object Names
-    - is_frozen        => Is Frozen
-*/
 with sm as (select * from snp_mapping with read only)
 ,sdc as (select * from snp_deploy_spec with read only)
 select

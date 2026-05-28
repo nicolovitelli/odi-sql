@@ -1,6 +1,3 @@
-/*
-  extracts all tasks to be executed for each scenario.
-*/
 with sst as (select * from snp_scen_task with read only)
 ,sl as (select * from snp_lschema with read only)
 select sst.scen_no as scen_no

@@ -1,6 +1,3 @@
-/*
-  extracts all variables available in ODI.
-*/
 with sv as (select * from snp_var with read only)
 ,sth as (select * from snp_txt_header with read only)
 ,sl as (select * from snp_lschema with read only)
