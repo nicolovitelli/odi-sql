@@ -1,7 +1,3 @@
-/*
-  extracts load plans along with the scenarios used within them.
-  also indicates whether each scenario is currently enabled.
-*/
 with sls as (select * from snp_lp_step with read only)
 ,ss as (select * from snp_scen with read only)
 ,slp as (select * from snp_load_plan with read only)

@@ -1,6 +1,3 @@
-/*
-	extracts load plan hierarchy for all load plans available in ODI.
-*/
 with slp as (select * from snp_lp_step with read only)
 ,ss as (select * from snp_scen with read only)
 ,src as (

@@ -1,6 +1,3 @@
-/*
-  extracts procedure steps for each procedure available in ODI.
-*/
 with st as (select * from snp_trt with read only)
 ,slt as (select * from snp_line_trt with read only)
 ,sth as (select * from snp_txt_header with read only)

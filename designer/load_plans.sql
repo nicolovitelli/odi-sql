@@ -1,6 +1,3 @@
-/*
-  extracts all load plans available in ODI.
-*/
 with slp as (select * from snp_load_plan with read only)
 select
 	slp.i_load_plan as lp_no

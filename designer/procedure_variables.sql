@@ -1,8 +1,3 @@
-/*
-  extracts procedures along with the variables used within them.
-  the distinct keyword is used to remove duplicate entries of the same variable 
-  	when it appears multiple times within the same procedure.
-*/
 with sv as (select * from snp_var with read only)
 ,stc as (select * from snp_txt_crossr with read only)
 ,slt as (select * from snp_line_trt with read only)

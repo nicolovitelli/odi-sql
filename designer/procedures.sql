@@ -1,6 +1,3 @@
-/*
-  extracts all procedures available in ODI.
-*/
 with st as (select * from snp_trt with read only)
 select
 	st.i_trt as prc_no
