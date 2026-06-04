@@ -13,4 +13,3 @@ from slp
 where 1=1
 	and slr.i_lp_inst is null
 order by lp_no
-;

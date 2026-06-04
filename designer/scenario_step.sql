@@ -1,6 +1,3 @@
-/*
-  extracts all steps to be executed for each scenario.
-*/
 with sss as (select * from snp_scen_step with read only)
 ,sv as (select * from snp_var with read only)
 ,sp as (select * from snp_project with read only)
@@ -66,3 +63,4 @@ from sss
 	left join st
 		on sss.res_name = st.res_name
 		and sm.i_mod = st.i_mod
+;
