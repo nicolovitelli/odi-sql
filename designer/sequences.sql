@@ -2,6 +2,7 @@ with ss0 as (select * from snp_sequence with read only)
 ,stc as (select * from snp_txt_crossr with read only)
 ,st0 as (select * from snp_trt with read only)
 ,slt as (select * from snp_line_trt with read only)
+,sp as (select * from snp_project with read only)
 ,st as (
 	select ss0.seq_id
 		,count(1) as cnt
@@ -30,10 +31,10 @@ with ss0 as (select * from snp_sequence with read only)
 )
 ,ss as (
 	select ss0.seq_id as seq_no
-		,ss0.i_project as prj_no
 		,ss0.seq_name
-		,coalesce(st.cnt,0) as used_by_procedures
-		,coalesce(sv.cnt,0) as used_by_variables
+		,sp.project_name as prj_name
+		,coalesce(st.cnt,0) as procedure_usage_count
+		,coalesce(sv.cnt,0) as variable_usage_count
 		,ss0.incr
 		,ss0.seq_type
 		,ss0.ind_std
@@ -53,7 +54,10 @@ with ss0 as (select * from snp_sequence with read only)
 			on ss0.seq_id = st.seq_id
 		left join sv
 			on ss0.seq_id = sv.seq_id
+		left join sp
+			on ss0.i_project = sp.i_project
 )
 select *
 from ss
+order by last_deploy_ts desc
 ;

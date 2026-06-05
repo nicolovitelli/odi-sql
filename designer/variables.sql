@@ -86,10 +86,10 @@ with sv0 as (select * from snp_var with read only)
 			,to_char(sv0.def_v)
 			,to_char(sv0.def_date)
 		) as var_default_value
-		,coalesce(step.cnt,0) as used_by_pkg_steps
-		,coalesce(slv.cnt,0) as used_by_load_plans
-		,coalesce(st.cnt,0) as used_by_procedures
-		,coalesce(sm.cnt,0) as used_by_mappings
+		,coalesce(step.cnt,0) as package_step_usage_count
+		,coalesce(slv.cnt,0) as load_plan_usage_count
+		,coalesce(st.cnt,0) as procedure_usage_count
+		,coalesce(sm.cnt,0) as mapping_usage_count
 		,to_char(sv0.first_date,'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(sv0.last_date,'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
 	from sv0
