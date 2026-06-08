@@ -1,6 +1,13 @@
 with st0 as (select * from snp_table with read only)
 ,sm as (select * from snp_model with read only)
 ,ssm as (select * from snp_sub_model with read only)
+,sk0 as (select * from snp_key with read only)
+,sp0 as (select * from snp_partition with read only)
+,smap0 as (select * from snp_mapping with read only)
+,smr as (select * from snp_map_ref with read only)
+,smc as (select * from snp_map_comp with read only)
+,spn as (select * from snp_phy_node with read only)
+,sdc as (select * from snp_deploy_spec with read only)
 ,sc0 as (select * from snp_col with read only)
 ,sc as (
 	select st0.i_table
@@ -10,7 +17,6 @@ with st0 as (select * from snp_table with read only)
 			on sc0.i_table = st0.i_table
 	group by st0.i_table
 )
-,sk0 as (select * from snp_key with read only)
 ,sk as (
 	select st0.i_table
 		,count(1) as cnt
@@ -19,7 +25,6 @@ with st0 as (select * from snp_table with read only)
 			on sk0.i_table = st0.i_table
 	group by st0.i_table
 )
-,sp0 as (select * from snp_partition with read only)
 ,sp as (
 	select st0.i_table
 		,count(1) as cnt
@@ -28,11 +33,6 @@ with st0 as (select * from snp_table with read only)
 			on sp0.i_table = st0.i_table
 	group by st0.i_table
 )
-,smap0 as (select * from snp_mapping with read only)
-,smr as (select * from snp_map_ref with read only)
-,smc as (select * from snp_map_comp with read only)
-,spn as (select * from snp_phy_node with read only)
-,sdc as (select * from snp_deploy_spec with read only)
 ,smap as (
 	select st0.i_table
 		,count(case when (spn.i_tgt_comp_km is null and spn.i_src_comp_km is not null) then 1 end) as cnt_src
@@ -55,8 +55,8 @@ with st0 as (select * from snp_table with read only)
 )
 ,st as (
 	select st0.i_table as ds_no
-		,st0.res_name as ds_name
-		,st0.table_name
+		,st0.res_name as ds_pname
+		,st0.table_name as ds_lname
 		,st0.table_alias as ds_alias
 		,decode(st0.table_type
 			,'T'

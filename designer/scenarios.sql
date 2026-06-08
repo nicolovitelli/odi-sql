@@ -2,6 +2,18 @@ with ss0 as (select * from snp_scen with read only)
 ,sp as (select * from snp_package with read only)
 ,sf as (select * from snp_folder with read only)
 ,ssr0 as (select * from snp_scen_report with read only)
+,sss0 as (select * from snp_scen_step with read only)
+,sls0 as (select * from snp_lp_step with read only)
+,sprj0 as (select * from snp_project with read only)
+,st as (select * from snp_trt with read only)
+,sm as (select * from snp_mapping with read only)
+,sst0 as (select * from snp_scen_task with read only)
+,seq_scen0 as (select * from snp_seq_scen with read only)
+,sseq0 as (select * from snp_sequence with read only)
+,svs0 as (select * from snp_var_scen with read only)
+,sv as (select * from snp_var with read only)
+,step0 as (select * from snp_step with read only)
+,sth as (select * from snp_txt_header with read only)
 ,ssr as (
 	select ss0.scen_no
 		,max(ssr0.sess_end) as last_completed_execution_ts
@@ -40,7 +52,6 @@ with ss0 as (select * from snp_scen with read only)
 			on ssr0.scen_no = ss0.scen_no
 	group by ss0.scen_no
 )
-,sss0 as (select * from snp_scen_step with read only)
 ,sss as (
 	select ss0.scen_no
 		,count(1) as cnt
@@ -49,7 +60,6 @@ with ss0 as (select * from snp_scen with read only)
 			on sss0.scen_no = ss0.scen_no
 	group by ss0.scen_no
 )
-,sls0 as (select * from snp_lp_step with read only)
 ,sls as (
 	select ss0.scen_no, count(1) as cnt
 	from sls0
@@ -58,7 +68,6 @@ with ss0 as (select * from snp_scen with read only)
 			and sls0.scen_version = ss0.scen_version
 	group by ss0.scen_no
 )
-,sst0 as (select * from snp_scen_task with read only)
 ,sst as (
 	select ss0.scen_no
 		,count(1) as cnt
@@ -67,9 +76,6 @@ with ss0 as (select * from snp_scen with read only)
 			on sst0.scen_no = ss0.scen_no
 	group by ss0.scen_no
 )
-,sprj0 as (select * from snp_project with read only)
-,st as (select * from snp_trt with read only)
-,sm as (select * from snp_mapping with read only)
 ,sprj as (
 	select ss0.scen_no
 		,sprj0.project_name
@@ -87,8 +93,6 @@ with ss0 as (select * from snp_scen with read only)
 		left join sprj0
 			on sprj0.i_project = sf.i_project
 )
-,seq_scen0 as (select * from snp_seq_scen with read only)
-,sseq0 as (select * from snp_sequence with read only)
 ,sseq as (
 	select sprj0.project_name || '.' || sseq0.seq_name seq_name
 	from sseq0
@@ -105,8 +109,6 @@ with ss0 as (select * from snp_scen with read only)
 			on seq_scen0.seq_name = sseq.seq_name
 	group by ss0.scen_no
 )
-,svs0 as (select * from snp_var_scen with read only)
-,sv as (select * from snp_var with read only)
 ,svs as (
 	select ss0.scen_no
 		,count(1) as cnt
@@ -120,8 +122,6 @@ with ss0 as (select * from snp_scen with read only)
 			and sprj0.i_project = sv.i_project
 	group by ss0.scen_no
 )
-,step0 as (select * from snp_step with read only)
-,sth as (select * from snp_txt_header with read only)
 ,step as (
 	select ss0.scen_no
 		,count(1) as cnt

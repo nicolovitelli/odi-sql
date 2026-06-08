@@ -1,5 +1,6 @@
 with sm0 as (select * from snp_model with read only)
 ,ssm0 as (select * from snp_sub_model with read only)
+,st0 as (select * from snp_table with read only)
 ,ssm as (
 	select sm0.i_mod
 		,count(1) as cnt
@@ -8,7 +9,6 @@ with sm0 as (select * from snp_model with read only)
 			on ssm0.i_mod = sm0.i_mod
 	group by sm0.i_mod
 )
-,st0 as (select * from snp_table with read only)
 ,st as (
 	select sm0.i_mod
 		,count(1) as cnt

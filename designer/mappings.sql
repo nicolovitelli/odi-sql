@@ -2,6 +2,15 @@ with sm0 as (select * from snp_mapping with read only)
 ,sdc as (select * from snp_deploy_spec with read only)
 ,sf as (select * from snp_folder with read only)
 ,sp as (select * from snp_project with read only)
+,step0 as (select * from snp_step with read only)
+,smc0 as (select * from snp_map_comp with read only)
+,st0 as (select * from snp_table with read only)
+,smr as (select * from snp_map_ref with read only)
+,spn as (select * from snp_phy_node with read only)
+,smcp as (select * from snp_map_cp with read only)
+,sma as (select * from snp_map_attr with read only)
+,sme as (select * from snp_map_expr with read only)
+,sv as (select * from snp_var with read only)
 ,ss0 as (select * from snp_scen with read only)
 ,ss as (
 	select sm0.i_mapping
@@ -11,7 +20,6 @@ with sm0 as (select * from snp_mapping with read only)
 			on ss0.i_mapping = sm0.i_mapping
 	group by sm0.i_mapping
 )
-,smc0 as (select * from snp_map_comp with read only)
 ,smc as (
 	select sm0.i_mapping
 		,count(1) as cnt
@@ -28,7 +36,6 @@ with sm0 as (select * from snp_mapping with read only)
 			on smc0.i_owner_mapping = sm0.i_mapping
 	group by sm0.i_mapping
 )
-,step0 as (select * from snp_step with read only)
 ,step as (
 	select sm0.i_mapping
 		,count(1) as cnt
@@ -37,9 +44,6 @@ with sm0 as (select * from snp_mapping with read only)
 			on step0.i_mapping = sm0.i_mapping
 	group by sm0.i_mapping
 )
-,st0 as (select * from snp_table with read only)
-,smr as (select * from snp_map_ref with read only)
-,spn as (select * from snp_phy_node with read only)
 ,st as (
 	select
 		sm0.i_mapping
@@ -80,10 +84,6 @@ with sm0 as (select * from snp_mapping with read only)
 	from st
 	group by st.i_mapping
 )
-,smcp as (select * from snp_map_cp with read only)
-,sma as (select * from snp_map_attr with read only)
-,sme as (select * from snp_map_expr with read only)
-,sv as (select * from snp_var with read only)
 ,sm_expr as (
 	select /*+ materialize */ sm0.i_mapping,
         sme.txt as expr_clob

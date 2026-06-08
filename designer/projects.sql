@@ -1,5 +1,12 @@
 with sp0 as (select * from snp_project with read only)
 ,sf0 as (select * from snp_folder with read only)
+,spkg0 as (select * from snp_package with read only)
+,sm0 as (select * from snp_mapping with read only)
+,scen0 as (select * from snp_scen with read only)
+,ss0 as (select i_project from snp_sequence with read only)
+,st0 as (select i_project, trt_type from snp_trt with read only)
+,su0 as (select i_project from snp_ufunc with read only)
+,sv0 as (select i_project from snp_var with read only)
 ,sf as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -8,7 +15,6 @@ with sp0 as (select * from snp_project with read only)
 			on sf0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,sm0 as (select * from snp_mapping with read only)
 ,sm as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -19,7 +25,6 @@ with sp0 as (select * from snp_project with read only)
 			on sf0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,spkg0 as (select * from snp_package with read only)
 ,spkg as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -30,7 +35,6 @@ with sp0 as (select * from snp_project with read only)
 			on sf0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,scen0 as (select * from snp_scen with read only)
 ,scen as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -43,7 +47,6 @@ with sp0 as (select * from snp_project with read only)
 			on sf0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,ss0 as (select i_project from snp_sequence with read only)
 ,ss as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -52,7 +55,6 @@ with sp0 as (select * from snp_project with read only)
 			on ss0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,st0 as (select i_project, trt_type from snp_trt with read only)
 ,st as (
 	select sp0.i_project
 		,count(case when st0.trt_type = 'U' then 1 end) as cnt_prc
@@ -62,7 +64,6 @@ with sp0 as (select * from snp_project with read only)
 			on st0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,su0 as (select i_project from snp_ufunc with read only)
 ,su as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -71,7 +72,6 @@ with sp0 as (select * from snp_project with read only)
 			on su0.i_project = sp0.i_project
 	group by sp0.i_project
 )
-,sv0 as (select i_project from snp_var with read only)
 ,sv as (
 	select sp0.i_project
 		,count(1) as cnt
@@ -114,4 +114,5 @@ with sp0 as (select * from snp_project with read only)
 )
 select *
 from sp
+order by last_deploy_ts desc
 ;

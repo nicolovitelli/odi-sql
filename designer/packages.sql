@@ -1,5 +1,7 @@
 with sp0 as (select * from snp_package with read only)
 ,sf as (select * from snp_folder with read only)
+,step0 as (select * from snp_step with read only)
+,sprj0 as (select * from snp_project with read only)
 ,ss0 as (select * from snp_scen with read only)
 ,ss as (
 	select sp0.i_package
@@ -9,7 +11,6 @@ with sp0 as (select * from snp_package with read only)
 			on ss0.i_package = sp0.i_package
 	group by sp0.i_package
 )
-,step0 as (select * from snp_step with read only)
 ,step as (
 	select sp0.i_package
 		,count(1) as cnt
@@ -42,7 +43,6 @@ with sp0 as (select * from snp_package with read only)
     )
     group by sp0.i_package
 )
-,sprj0 as (select * from snp_project with read only)
 ,sprj as (
 	select sp0.i_package, sprj0.project_name
 	from sprj0

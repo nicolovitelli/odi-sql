@@ -1,7 +1,13 @@
 with st0 as (select * from snp_trt with read only)
 ,sf as (select * from snp_folder with read only)
 ,ss0 as (select * from snp_scen with read only)
+,slt0 as (select * from snp_line_trt with read only)
 ,sp as (select * from snp_project with read only)
+,stc as (select * from snp_txt_crossr with read only)
+,su0 as (select * from snp_ufunc with read only)
+,step0 as (select * from snp_step with read only)
+,slp0 as (select * from snp_lp_step with read only)
+,sv0 as (select * from snp_var with read only)
 ,ss as (
 	select st0.i_trt
 		,count(1) as cnt
@@ -10,7 +16,6 @@ with st0 as (select * from snp_trt with read only)
 			on ss0.i_trt = st0.i_trt
 	group by st0.i_trt
 )
-,slt0 as (select * from snp_line_trt with read only)
 ,slt as (
 	select st0.i_trt
 		,count(1) as cnt
@@ -20,8 +25,6 @@ with st0 as (select * from snp_trt with read only)
 			on slt0.i_trt = st0.i_trt
 	group by st0.i_trt
 )
-,stc as (select * from snp_txt_crossr with read only)
-,sv0 as (select * from snp_var with read only)
 ,sv as (
 	select st0.i_trt
 		,count(1) as cnt
@@ -36,7 +39,6 @@ with st0 as (select * from snp_trt with read only)
 	where stc.object_type = 'V'
 	group by st0.i_trt
 )
-,su0 as (select * from snp_ufunc with read only)
 ,su as (
 	select st0.i_trt
 		,count(1) as cnt
@@ -51,7 +53,6 @@ with st0 as (select * from snp_trt with read only)
 	where stc.object_type = 'F'
 	group by st0.i_trt
 )
-,step0 as (select * from snp_step with read only)
 ,step as (
 	select st0.i_trt
 		,count(1) as cnt
@@ -60,7 +61,6 @@ with st0 as (select * from snp_trt with read only)
 			on step0.i_trt = st0.i_trt
 	group by st0.i_trt
 )
-,slp0 as (select * from snp_lp_step with read only)
 ,slp as (
 	select st0.i_trt
 		,count(1) as cnt

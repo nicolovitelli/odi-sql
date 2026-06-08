@@ -1,5 +1,7 @@
 with slp0 as (select * from snp_load_plan with read only)
 ,sls0 as (select * from snp_lp_step with read only)
+,slr0 as (select * from snp_lpi_run with read only)
+,sli as (select * from snp_lp_inst with read only)
 ,sls_empty as (
 	select distinct sls0.i_load_plan
 	from sls0
@@ -14,8 +16,6 @@ with slp0 as (select * from snp_load_plan with read only)
 	from sls0
 	group by sls0.i_load_plan
 )
-,slr0 as (select * from snp_lpi_run with read only)
-,sli as (select * from snp_lp_inst with read only)
 ,slr as (
 	select sli.i_load_plan
 		,slr0.end_date
