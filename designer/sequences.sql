@@ -42,10 +42,8 @@ with ss0 as (select * from snp_sequence with read only)
 		,ss0.std_pos
 		,ss0.spc_tab
 		,ss0.spc_col
-		,ss0.spc_where
 		,ss0.lschema_name
 		,ss0.db_seq_name
-		,ss0.v_last_date
 		,ss0.i_txt_spc_where
 		,to_char(ss0.first_date, 'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(ss0.last_date, 'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
