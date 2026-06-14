@@ -35,16 +35,9 @@ with ss0 as (select * from snp_sequence with read only)
 		,sp.project_name as prj_name
 		,coalesce(st.cnt,0) as procedure_usage_count
 		,coalesce(sv.cnt,0) as variable_usage_count
-		,ss0.incr
-		,ss0.seq_type
-		,ss0.ind_std
-		,ss0.std_max
-		,ss0.std_pos
-		,ss0.spc_tab
-		,ss0.spc_col
+		,ss0.incr as incr_value
 		,ss0.lschema_name
 		,ss0.db_seq_name
-		,ss0.i_txt_spc_where
 		,to_char(ss0.first_date, 'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(ss0.last_date, 'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
 	from ss0

@@ -43,13 +43,14 @@ with ss0 as (select * from snp_scen with read only)
 	where ssr0.sess_status = 'D'
 	group by ss0.scen_no
 )
-,ssr_dur as (
+,ssr_avg_28d as (
 	select ss0.scen_no
-		,max(ssr0.sess_dur) as max_sess_dur
-		,min(ssr0.sess_dur) as min_sess_dur
+		,round(avg(ssr0.sess_dur)) as avg_dur_sec
 	from ssr0
 		inner join ss0
 			on ssr0.scen_no = ss0.scen_no
+	where ssr0.sess_status = 'D'
+		and trunc(ssr0.sess_beg) >= trunc(sysdate-28)
 	group by ss0.scen_no
 )
 ,sss as (
@@ -187,20 +188,13 @@ with ss0 as (select * from snp_scen with read only)
 			    lpad(mod(ssr_avg.avg_dur_sec, 60), 2, '0')
 			else '-1'
 		end as avg_duration
-		,case when ssr_dur.max_sess_dur is not null
+		,case when ssr_avg_28d.avg_dur_sec is not null
 			then 
-				lpad(floor(ssr_dur.max_sess_dur / 3600), 2, '0') || ':' ||
-			    lpad(floor(mod(ssr_dur.max_sess_dur, 3600) / 60), 2, '0') || ':' ||
-			    lpad(mod(ssr_dur.max_sess_dur, 60), 2, '0')
+				lpad(floor(ssr_avg_28d.avg_dur_sec / 3600), 2, '0') || ':' ||
+			    lpad(floor(mod(ssr_avg_28d.avg_dur_sec, 3600) / 60), 2, '0') || ':' ||
+			    lpad(mod(ssr_avg_28d.avg_dur_sec, 60), 2, '0')
 			else '-1'
-		end as longest_duration
-		,case when ssr_dur.min_sess_dur is not null
-			then 
-				lpad(floor(ssr_dur.min_sess_dur / 3600), 2, '0') || ':' ||
-			    lpad(floor(mod(ssr_dur.min_sess_dur, 3600) / 60), 2, '0') || ':' ||
-			    lpad(mod(ssr_dur.min_sess_dur, 60), 2, '0')
-			else '-1'
-		end as shortest_duration
+		end as avg_duration_28d
 		,to_char(ssr.last_completed_execution_ts, 'yyyy-mm-dd hh24:mi:ss') as last_completed_execution_ts
 		,to_char(ssr.last_successful_execution_ts, 'yyyy-mm-dd hh24:mi:ss') as last_successful_execution_ts
 		,to_char(ssr.last_failed_execution_ts, 'yyyy-mm-dd hh24:mi:ss') as last_failed_execution_ts
@@ -227,8 +221,6 @@ with ss0 as (select * from snp_scen with read only)
 			on ss0.scen_no = seq_scen.scen_no
 		left join svs
 			on ss0.scen_no = svs.scen_no
-		left join ssr_dur
-			on ss0.scen_no = ssr_dur.scen_no
 		left join sprj
 			on ss0.scen_no = sprj.scen_no
 		left join step
@@ -243,6 +235,8 @@ with ss0 as (select * from snp_scen with read only)
 			on ss0.i_mapping = sm.i_mapping
 		left join sf sf_map
 			on sm.i_folder = sf_map.i_folder
+		left join ssr_avg_28d
+			on ss0.scen_no = ssr_avg_28d.scen_no
 )
 select *
 from ss

@@ -2,17 +2,10 @@ with slp0 as (select * from snp_load_plan with read only)
 ,sls0 as (select * from snp_lp_step with read only)
 ,slr0 as (select * from snp_lpi_run with read only)
 ,sli as (select * from snp_lp_inst with read only)
-,sls_empty as (
-	select distinct sls0.i_load_plan
-	from sls0
-	where sls0.lp_step_name <> 'root_step'
-)
 ,sls_step as (
 	select sls0.i_load_plan
 		,count(sls0.i_lp_step) cnt
 		,count(case when sls0.lp_step_type = 'RS' then 1 end) as cnt_scen
-		,count(case when sls0.lp_step_type = 'SE' then 1 end) as cnt_serial
-		,count(case when sls0.lp_step_type = 'PA' then 1 end) as cnt_parallel
 	from sls0
 	group by sls0.i_load_plan
 )
@@ -46,14 +39,8 @@ with slp0 as (select * from snp_load_plan with read only)
 ,slp as (
 	select slp0.i_load_plan as lp_no
 		,slp0.load_plan_name as lp_name
-		,case when sls_empty.i_load_plan is not null
-			then 'N'
-			else 'Y'
-		end as is_empty
 		,coalesce(sls_step.cnt,0) as step_count
 		,coalesce(sls_step.cnt_scen,0) as scenario_step_count
-		,coalesce(sls_step.cnt_serial,0) as serial_step_count
-		,coalesce(sls_step.cnt_parallel,0) as parallel_step_count
 		,case when slr_avg.avg_dur_sec is not null
 			then 
 				lpad(floor(slr_avg.avg_dur_sec / 3600), 2, '0') || ':' ||
@@ -74,8 +61,6 @@ with slp0 as (select * from snp_load_plan with read only)
 			and slr_failed.rn = 1
 		left join slr_avg
 			on slp0.i_load_plan = slr_avg.i_load_plan
-		left join sls_empty
-			on slp0.i_load_plan = sls_empty.i_load_plan
 		left join sls_step
 			on slp0.i_load_plan = sls_step.i_load_plan
 )

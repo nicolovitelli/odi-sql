@@ -77,7 +77,6 @@ with st0 as (select * from snp_trt with read only)
 		,st0.trt_name as prc_name
 		,sf.folder_name as fol_name
 		,sp.project_name as prj_name
-		,st0.km_techno as km_techno
 		,coalesce(slt.cnt,0) as step_count
 		,coalesce(slt.cnt_enabled_steps,0) as enabled_step_count
 		,coalesce(sv.cnt,0) as variable_count

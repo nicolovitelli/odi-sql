@@ -23,14 +23,6 @@ with sm0 as (select * from snp_mapping with read only)
 ,smc as (
 	select sm0.i_mapping
 		,count(1) as cnt
-		,count(case when smc0.type_name = 'JOIN' then 1 end) as cnt_join
-		,count(case when smc0.type_name = 'DATASTORE' then 1 end) as cnt_ds
-		,count(case when smc0.type_name = 'LOOKUP' then 1 end) as cnt_lkp
-		,count(case when smc0.type_name = 'AGGREGATE' then 1 end) as cnt_agg
-		,count(case when smc0.type_name = 'REUSABLEMAPPING' then 1 end) as cnt_rm
-		,count(case when smc0.type_name = 'FILTER' then 1 end) as cnt_fil
-		,count(case when smc0.type_name = 'EXPRESSION' then 1 end) as cnt_exp
-		,count(case when smc0.type_name = 'DISTINCT' then 1 end) as cnt_dis
 	from smc0
 		inner join sm0
 			on smc0.i_owner_mapping = sm0.i_mapping
@@ -140,14 +132,6 @@ with sm0 as (select * from snp_mapping with read only)
 		,coalesce(st_ds.cnt_stg,0) as staging_datastore_count
 		,coalesce(ss.cnt,0) as scenario_count
 		,coalesce(smc.cnt,0) as component_count
-		,coalesce(smc.cnt_join,0) as join_component_count
-		,coalesce(smc.cnt_ds,0) as datastore_component_count
-		,coalesce(smc.cnt_lkp,0) as lookup_component_count
-		,coalesce(smc.cnt_agg,0) as aggregate_component_count
-		,coalesce(smc.cnt_rm,0) as reusable_component_count
-		,coalesce(smc.cnt_fil,0) as filter_component_count
-		,coalesce(smc.cnt_exp,0) as expression_component_count
-		,coalesce(smc.cnt_dis,0) as distinct_component_count
 		,coalesce(sm_expr_var.cnt,0) as variable_count
 		,to_char(sm0.first_date,'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(sm0.last_date,'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
