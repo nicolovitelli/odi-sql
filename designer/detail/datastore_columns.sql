@@ -6,8 +6,8 @@ with sc0 as (select * from snp_col with read only)
 		,sc0.i_col as col_no
 		,sc0.col_name as col_name
 		,sc0.source_dt as col_datatype
-		,coalesce(sc0.longc,-1) as col_length
-		,coalesce(sc0.scalec,-1) as col_scale
+		,sc0.longc as col_length
+		,sc0.scalec as col_scale
 		,to_char(sc0.first_date, 'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(sc0.last_date, 'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
 	from sc0
@@ -16,5 +16,5 @@ with sc0 as (select * from snp_col with read only)
 )
 select *
 from sc
-order by ds_no
+order by last_deploy_ts desc
 ;

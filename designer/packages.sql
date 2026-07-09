@@ -58,11 +58,11 @@ with sp0 as (select * from snp_package with read only)
 		,sprj.project_name as prj_name
 		,coalesce(ss.cnt,0) as scenario_count
 		,coalesce(step.cnt,0) as step_count
+		,coalesce(step_off.cnt,0) as unreachable_step_count
 		,coalesce(step.cnt_prc_steps,0) as procedure_step_count
 		,coalesce(step.cnt_var_steps,0) as variable_step_count
 		,coalesce(step.cnt_map_steps,0) as mapping_step_count
 		,coalesce(step.cnt_odi_steps,0) as odi_command_step_count
-		,coalesce(step_off.cnt,0) as unreachable_step_count
 		,to_char(sp0.first_date,'yyyy-mm-dd hh24:mi:ss') as first_deploy_ts
 		,to_char(sp0.last_date,'yyyy-mm-dd hh24:mi:ss') as last_deploy_ts
 	from sp0

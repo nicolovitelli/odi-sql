@@ -1,13 +1,3 @@
-/*
-  extracts datastores and knowledge modules used by each mapping.
-  dependency_type:
-    'SOURCE'  => datastore used exclusively as a source
-    'TARGET'  => datastore used exclusively as a target
-    'STAGING' => datastore used as both source and target
-  km_no is set to 0 if the datastore is a source.
-  row_number is used to filter out datastores that appear multiple times 
-  	(as source, target, or staging) within the same mapping.
-*/
 with st as (select * from snp_table with read only)
 ,smr as (select * from snp_map_ref with read only)
 ,smc as (select * from snp_map_comp with read only)

@@ -1,3 +1,54 @@
+# odi-sql
+
+this repository contains a collection of SQL queries useful for exploring and documenting the ODI 12c metadata repository.
+
+the queries are intended to provide a technical overview of ODI objects, their configuration, relationships, usage, dependencies, and execution statistics.
+
 all queries were tested and do work with the following versions:
-- Oracle Data Integrator 12.2.1
-- Oracle Database 19c EE
+
+* Oracle Data Integrator 12.2.1
+* Oracle Database 19c EE
+
+## query summary
+
+### designer
+
+| folder     | query name          | description                                                                                                                                                                                                |
+| ---------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `designer` | `datastores`        | extracts a summary of all Datastores, including physical and logical names, model ownership, object type, column count, and usage as source, target, or staging object in Mappings.                        |
+| `designer` | `load_plans`        | extracts a summary of all Load Plans, including step counts, Scenario step counts, average execution duration, and latest successful and failed execution timestamps.                                      |
+| `designer` | `mappings`          | extracts a summary of all Mappings, including project and folder ownership, configuration flags, datastore usage, component counts, variable references, and generated Scenario counts.                    |
+| `designer` | `models`            | extracts a summary of all Models, including technology, Logical Schema, Sub-Models, Datastores, and reverse-engineering configuration.                                                                     |
+| `designer` | `packages`          | extracts a summary of all Packages, including project and folder ownership, generated Scenario counts, total steps, unreachable steps, and step counts by type.                                            |
+| `designer` | `procedures`        | extracts a summary of all Procedures, including step counts, enabled steps, referenced Variables and User Functions, generated Scenarios, usage in Packages and Load Plans, and Scenario freshness status. |
+| `designer` | `projects`          | extracts a summary of all Projects, including counts of Folders, Knowledge Modules, Mappings, Packages, Procedures, Scenarios, Sequences, User Functions, and Variables.                                   |
+| `designer` | `scenarios`         | extracts a summary of all Scenarios, including version, source object context, execution statistics, dependency counts, average durations, and latest execution timestamps.                                |
+| `designer` | `sequences`         | extracts a summary of all Sequences, including project ownership, increment value, associated Logical Schema, physical database sequence name, and usage by Procedures and Variables.                      |
+| `designer` | `sub_models`        | extracts a summary of all Sub Models, including parent Model information and Sub-Model hierarchy relationships.                                                                                            |
+| `designer` | `variables`         | extracts a summary of all Variables, including project ownership, refresh code, Logical Schema, history option, data type, default value, and usage across Packages, Load Plans, Procedures, and Mappings. |
+| `designer` | `knowledge_modules` | extracts a summary of all Knowledge Modules, including Knowledge Module type, project ownership, technology, and usage across ODI objects.                                                                 |
+| `designer` | `user_functions`    | extracts a summary of all User Functions available in ODI, including project ownership, implementation count, associated technologies, and usage across ODI objects.                                       |
+
+### designer/detail
+
+| folder            | query name                           | description                                                                                                                                                                                                       |
+| ----------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `designer/detail` | `datastore_columns`                  | extracts column-level metadata for each Datastore, including the associated Model and Datastore, column name, data type, length, precision, scale, and nullable flag.                                             |
+| `designer/detail` | `load_plan_hierarchy`                | extracts the full step hierarchy for each Load Plan, including parent-child relationships, step order, step type, and whether each step is enabled.                                                               |
+| `designer/detail` | `load_plan_variable_steps`           | extracts Variable steps defined within Load Plans, including the referenced Variable, step location, refresh mode, and step configuration.                                                                        |
+| `designer/detail` | `load_plan_variables`                | extracts the list of Variables imported into each Load Plan, including their project ownership and Load Plan association.                                                                                         |
+| `designer/detail` | `mapping_variables`                  | extracts Variables referenced by Mappings, including the Mapping, Project, Folder, and related Variable information.                                                                                              |
+| `designer/detail` | `package_steps`                      | extracts all Package steps, including Package ownership, step order, step type, step name, and referenced ODI objects where available.                                                                            |
+| `designer/detail` | `procedure_steps`                    | extracts all Procedure steps, including Procedure ownership, step order, technology, execution options, Source Command, and Target Command.                                                                       |
+| `designer/detail` | `procedure_variables`                | extracts Variables referenced by Procedures, including the Procedure, Procedure step, and whether the Variable is used in the Source Command or Target Command.                                                   |
+| `designer/detail` | `scenario_step`                      | extracts Scenario steps, including Scenario ownership, step order, step type, Variable values where available, and target Logical Schema or target Datastore information.                                         |
+| `designer/detail` | `scenario_tasks`                     | extracts Scenario tasks, including generated task details and generated code, useful for reviewing the runtime structure of each ODI Scenario.                                                                    |
+| `designer/detail` | `folder_parent_folder`               | extracts Folder hierarchy information, including each Folder and its parent Folder where available.                                                                                                               |
+| `designer/detail` | `knowledge_module_prop`              | extracts Knowledge Module properties, including property names, default values, associated Knowledge Module, Knowledge Module type, and technology.                                                               |
+| `designer/detail` | `mapping_datastore_knowledge_module` | extracts Datastores referenced by Mappings, including the associated Knowledge Module and dependency type, such as source, target, or staging.                                                                    |
+| `designer/detail` | `mapping_expressions`                | extracts Mapping expressions and begin/end commands that reference a User Function.                                                                                                                               |
+| `designer/detail` | `mapping_knowledge_module`           | extracts Knowledge Modules used by Mappings, including Mapping ownership, physical node information where available, and associated technology.                                                                   |
+| `designer/detail` | `mapping_knowledge_module_prop`      | extracts Knowledge Module property values for each Mapping, based on the XML generated by the latest Scenario; `phy_node_name` identifies the node in the Mapping physical layer.                                 |
+| `designer/detail` | `mapping_reusable_mapping`           | extracts Mappings that reference Reusable Mappings, including the parent Mapping and the referenced Reusable Mapping; Mappings without Reusable Mappings are excluded.                                            |
+| `designer/detail` | `mapping_user_function`              | extracts Mappings that reference User Functions, including the Mapping, User Function, and implementation technology; Mappings without User Functions are excluded, and only Oracle implementations are included. |
+| `designer/detail` | `user_function_text`                 | extracts implementation text for each User Function available in ODI; the same User Function may appear in multiple rows when implemented for multiple technologies.                                              |

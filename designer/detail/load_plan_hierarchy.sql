@@ -5,8 +5,8 @@ with sls0 as (select * from snp_lp_step with read only)
 	select sls0.i_load_plan as lp_no
 	    ,lpad(' ', (level - 1) * 4, ' ') || sls0.lp_step_name as step_name
 	    ,decode(sls0.lp_step_type
-	    	,'RS'
-	    	,'Run Scenario From Step'
+		    	,'RS'
+		    	,'Run Scenario From Step'
 			,'SF'
 			,'Serial Step From Failure'
 			,'SC'
@@ -23,6 +23,8 @@ with sls0 as (select * from snp_lp_step with read only)
 			,'Root Step'
 			,sls0.lp_step_type
 		) as step_type
+		,case when sls0.ind_enabled = 1 then 'Y' else 'N' end
+			as is_enabled
 		,sls0.scen_name
 		,sls0.scen_version
 	from sls0
@@ -39,6 +41,7 @@ with sls0 as (select * from snp_lp_step with read only)
 		,slp.load_plan_name as lp_name
 		,sls.step_name
 		,sls.step_type
+		,sls.is_enabled
 		,coalesce(ss.scen_no,0) as scen_no
 	from sls
 		left join ss

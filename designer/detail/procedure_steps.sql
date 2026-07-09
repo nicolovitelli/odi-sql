@@ -6,12 +6,15 @@ with st as (select * from snp_trt with read only)
 		,slt0.i_line_trt as prc_step_no
 		,slt0.sql_name as prc_step_name
 		,slt0.ord_trt as prc_step_order
-		,sth.full_text as prc_step_text
+		,sths.full_text as prc_step_src_text
+		,stht.full_text as prc_step_tgt_text
 	from slt0
 		inner join st
 				on slt0.i_trt = st.i_trt
-		inner join sth
-				on coalesce(slt0.col_i_txt,slt0.def_i_txt) = sth.i_txt
+		left join sth sths
+				on slt0.col_i_txt = sths.i_txt
+		left join sth stht
+			on slt0.def_i_txt = stht.i_txt
 	where st.trt_type = 'U'
 	order by st.i_trt, slt0.i_line_trt, slt0.ord_trt
 )
