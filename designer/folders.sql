@@ -39,6 +39,7 @@ with sf0 as (select * from snp_folder with read only)
 ,sf as (
 	select sf0.i_folder fol_no
 		,sf0.folder_name
+		,sf00.folder_name as parent_folder_name
 		,coalesce(sm.cnt,0) as mapping_count
 		,coalesce(srm.cnt,0) as rmapping_count
 		,coalesce(sp.cnt,0) as package_count
@@ -54,6 +55,8 @@ with sf0 as (select * from snp_folder with read only)
 			on sf0.i_folder = sp.i_folder
 		left join st
 			on sf0.i_folder = st.i_folder
+		left join sf0 sf00
+			on sf0.par_i_folder = sf00.i_folder
 )
 select *
 from sf
