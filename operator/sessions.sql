@@ -1,6 +1,6 @@
 with ss0 as (select * from snp_session with read only)
 ,ss as (
-	select ss0.sess_no as scen_exec_no
+	select ss0.sess_no
 		,ss0.sess_name
 		,ss0.user_name executed_by
 		,to_char(ss0.sess_beg, 'yyyy-mm-dd hh24:mi:ss') as start_ts

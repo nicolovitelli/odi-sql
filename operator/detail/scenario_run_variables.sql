@@ -1,7 +1,3 @@
-/*
-  extracts all variables used by sessions that occurred after a specified date.
-  sessions whose operator log has been deleted from ODI will not be returned.
-*/
 with function parse_startup_variables(p_clob in clob) 
     return sys.odcivarchar2list is
         v_result sys.odcivarchar2list := sys.odcivarchar2list();
@@ -43,22 +39,27 @@ with function parse_startup_variables(p_clob in clob)
         end loop;
         return v_result;
     end parse_startup_variables;
-    slr as (select * from snp_lpi_run with read only)
-    ,sli as (select * from snp_lp_inst with read only)
-    ,slsl as (select * from snp_lpi_step_log with read only)
-    ,ss as (select * from snp_session with read only)
-    ,ssb as (select * from snp_sb with read only)
-    ,scen as (select * from snp_scen with read only)
+slr0 as (select * from snp_lpi_run with read only)
+,sli as (select * from snp_lp_inst with read only)
+,slsl as (select * from snp_lpi_step_log with read only)
+,ss as (select * from snp_session with read only)
+,ssb as (select * from snp_sb with read only)
+,scen as (select * from snp_scen with read only)
+,slr as (
 select 
-    ss.sess_no as scen_exec_no
+    ss.sess_no
+    ,ss.sess_name
+    ,to_char(ss.sess_beg, 'yyyy-mm-dd hh24:mi:ss') as start_ts
+    ,to_char(ss.sess_end, 'yyyy-mm-dd hh24:mi:ss') as end_ts
+    ,regexp_substr(t.column_value, '[^|]+', 1, 1) as var_prj
     ,regexp_substr(t.column_value, '[^|]+', 1, 2) as var_name
     ,regexp_substr(t.column_value, '[^|]+', 1, 3) as var_value
-from slr
+from slr0
     inner join sli  
-            on slr.i_lp_inst = sli.i_lp_inst
+            on slr0.i_lp_inst = sli.i_lp_inst
     inner join slsl 
-            on slr.i_lp_inst = slsl.i_lp_inst 
-           and slr.nb_run = slsl.nb_run
+            on slr0.i_lp_inst = slsl.i_lp_inst 
+           and slr0.nb_run = slsl.nb_run
     inner join ss   
             on slsl.sess_no = ss.sess_no
     inner join ssb  
@@ -66,5 +67,8 @@ from slr
     inner join scen 
             on ssb.scen_no = scen.scen_no
     cross apply table(parse_startup_variables(ss.startup_variables)) t
-where ss.sess_beg > to_date(:bvdate, 'yyyy-mm-dd hh24:mi:ss')
+)
+select *
+from slr
+order by end_ts desc
 ;
