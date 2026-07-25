@@ -123,8 +123,8 @@ with sm0 as (select * from snp_mapping with read only)
 		,sf.folder_name as fol_name
 		,sp.project_name as prj_name
 		,sm0.is_reusable
-		,decode(sdc.is_concurrent,1,'True',0,'False',sdc.cleanup_on_error) as is_concurrent
-		,decode(sdc.is_frozen,1,'True',0,'False',sdc.cleanup_on_error) as is_frozen
+		,decode(sdc.is_concurrent,1,'True',0,'False',sdc.is_concurrent) as is_concurrent
+		,decode(sdc.is_frozen,1,'True',0,'False',sdc.is_frozen) as is_frozen
 		,decode(sdc.cleanup_on_error,1,'True',0,'False',sdc.cleanup_on_error) as do_cleanup_on_error
 		,coalesce(step.cnt,0) as package_step_usage_count
 		,coalesce(st_ds.cnt_src,0) as source_datastore_count

@@ -1,3 +1,4 @@
+/* only works for Oracle Databases */
 with ssr00 as (select * from snp_scen_report with read only)
 ,ssr0 as (
 	select dbms_lob.substr(

@@ -64,3 +64,4 @@ with sss as (select * from snp_scen_step with read only)
 )
 select *
 from src
+;

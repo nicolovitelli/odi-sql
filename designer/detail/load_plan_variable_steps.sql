@@ -7,8 +7,7 @@ with slsv0 as (select * from snp_lp_step_var with read only)
 	select slp.load_plan_name as lp_name
 		,sls.i_lp_step as lp_step_no
 		,sls.lp_step_name
-		,decode(
-			sls.lp_step_type
+		,decode(sls.lp_step_type
 			,'RS'
 			,'Run Scenario Step'
 			,'CE'

@@ -5,8 +5,8 @@ with sls0 as (select * from snp_lp_step with read only)
 	select sls0.i_load_plan as lp_no
 	    ,lpad(' ', (level - 1) * 4, ' ') || sls0.lp_step_name as step_name
 	    ,decode(sls0.lp_step_type
-		    	,'RS'
-		    	,'Run Scenario From Step'
+		    ,'RS'
+		    ,'Run Scenario From Step'
 			,'SF'
 			,'Serial Step From Failure'
 			,'SC'
